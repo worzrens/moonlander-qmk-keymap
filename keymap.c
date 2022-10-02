@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
     TD(DANCE_0),    KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           LALT(KC_LSHIFT),                                MEH_T(KC_EQUAL),KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           TD(DANCE_1),                                    TD(DANCE_4),    KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLASH,
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           TD(DANCE_1),                                    TD(DANCE_4),    KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_LBRACKET,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
     MO(3),          KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           TD(DANCE_2),                                    TD(DANCE_5),    KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
@@ -322,15 +322,13 @@ static tap dance_state[9];
 uint8_t dance_step(qk_tap_dance_state_t *state);
 uint8_t dance_step(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
-        if (state->interrupted || !state->pressed) return SINGLE_TAP;
+        if (!state->pressed) return SINGLE_TAP;
         else return SINGLE_HOLD;
     } else if (state->count == 2) {
-        if (state->interrupted) return DOUBLE_SINGLE_TAP;
-        else if (state->pressed) return DOUBLE_HOLD;
+        if (state->pressed) return DOUBLE_HOLD;
         else return DOUBLE_TAP;
     } else if (state->count == 3) {
-        if (state->interrupted) return TRIPLE_SINGLE_TAP;
-        else if (state->pressed) return TRIPLE_HOLD;
+        if (state->pressed) return TRIPLE_HOLD;
         else return TRIPLE_TAP;
     }
     return MORE_TAPS;
