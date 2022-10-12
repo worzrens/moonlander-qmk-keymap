@@ -90,14 +90,14 @@ enum tap_dance_codes {
 };
 
 enum unicode_names {
-    bukvae,
-    bukvaebolshaya,
+    є,
+    Є,
 };
 
 // TODO: Ї ї І і Ґ ґ
 const uint32_t PROGMEM unicode_map[] = {
-    [bukvae] = 0x454,  // є
-    [bukvaebolshaya] = 0x404,  //  Є
+    [є] = 0x454,
+    [Є] = 0x404,
 };
 
 
@@ -113,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSHIFT,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,                                                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_BSLASH,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
                                                                                                                       // Thumb L         // Thumb R
-    KC_LCTRL,       __,             KC_PSCREEN,     KC_LEFT,        KC_RIGHT,                                       TD(DANCE_3),    MT(MOD_LCTL, KC_ENTER),                         KC_DOWN,        KC_UP,          KC_LBRACKET,    KC_RBRACKET,    MT(MOD_LCTL, KC_ENTER),
+    KC_LCTRL,      LGUI(KC_SPACE),  KC_PSCREEN,     KC_LEFT,        KC_RIGHT,                                       TD(DANCE_3),    MT(MOD_LCTL, KC_ENTER),                         KC_DOWN,        KC_UP,          KC_LBRACKET,    KC_RBRACKET,    MT(MOD_LCTL, KC_ENTER),
 // |---------------|---------------|---------------|---------------|--------------/                                                                                                 \--------------|---------------|---------------|---------------|---------------|
                                                                             // Piano L1          // Piano L2         // Piano L3             // Piano R3         // Piano R2     // Piano R1
                                                                              KC_SPACE,       MT(MOD_RSFT, KC_DELETE), KC_LCTRL,          MT(MOD_RALT, KC_TAB),LT(4,KC_BSPACE),MT(MOD_LSFT, KC_SPACE)
@@ -172,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
     __,             __,             __,             __,             __,             __,             __,                                             __,             __,             ST_MACRO_1,     ST_MACRO_2,     __,             __,             __,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
-    __,             __,             ST_MACRO_0,     __,             __,             __,             __,                                             __,             __,             __,             __,             __,             __,             XP(bukvae, bukvaebolshaya),
+    __,             __,             ST_MACRO_0,     __,             __,             __,             __,                                             __,             __,             __,             __,             __,             __,             ST_MACRO_3,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
     __,             __,             __,             __,             __,             __,                                                                             __,             __,             __,             __,             __,             __,
 // |---------------|---------------|---------------|---------------|---------------|---------------|---------------|                               |---------------|---------------|---------------|---------------|---------------|---------------|---------------|
@@ -258,7 +258,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
-      SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_7) SS_TAP(X_KP_9) ));
+      send_unicode_string("і");
+
+//      SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_7) SS_TAP(X_KP_9) ));
 
     }
     break;
@@ -276,7 +278,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     break;
     case ST_MACRO_3:
     if (record->event.pressed) {
-      SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_8) SS_TAP(X_KP_6) ));
+      send_unicode_string("є");
+//      SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_8) SS_TAP(X_KP_6) ));
 
     }
     break;
@@ -344,6 +347,8 @@ uint8_t dance_step(qk_tap_dance_state_t *state) {
     }
     return MORE_TAPS;
 }
+
+
 
 
 void on_dance_0(qk_tap_dance_state_t *state, void *user_data);
